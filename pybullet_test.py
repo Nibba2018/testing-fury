@@ -85,21 +85,21 @@ p.setCollisionFilterPair(sphere, wall_horizontal, -1, -1, enableCol)
 p.setCollisionFilterPair(sphere, cuboid, -1, -1, enableCol)
 
 xyz = np.array([[0, 0, 0]])
-colors = np.array([[0.7, 0.5, 0.5, 1]])
+colors = np.array([[1, 0, 0, 1]])
 radii = 0.5
 
 scene = window.Scene()
 
 
-fetch_viz_textures()
-filename = read_viz_textures("1_earth_8k.jpg")
-image = io.load_image(filename)
+# fetch_viz_textures()
+# filename = read_viz_textures("1_earth_8k.jpg")
+# image = io.load_image(filename)
 
-sphere_actor = actor.texture_on_sphere(image)
+# sphere_actor = actor.texture_on_sphere(image)
 
-# sphere_actor = actor.sphere(centers=xyz,
-#                             colors=colors,
-#                             radii=radii)
+sphere_actor = actor.sphere(centers=xyz,
+                            colors=colors,
+                            radii=radii)
 
 cuboid_actor = actor.box(centers=xyz,
                          directions=np.array(p.getEulerFromQuaternion(
@@ -110,12 +110,12 @@ cuboid_actor = actor.box(centers=xyz,
 wall_vertical_actor = actor.box(centers=np.array([[-4, 0, 4]]),
                          directions=np.array([[1.57, 0, 0]]),
                          size=(0.2, 10, 10),
-                         colors=(1, 0, 0))
+                         colors=(1, 1, 1))
 
 wall_horizontal_actor = actor.box(centers=np.array([[0, 0, 0]]),
                          directions=np.array([[-1.57, 0, 0]]),
                          size=(10, 10, 0.2),
-                         colors=(0, 0, 1))
+                         colors=(1, 1, 1))
 
 scene.add(actor.axes())
 scene.add(wall_vertical_actor)
