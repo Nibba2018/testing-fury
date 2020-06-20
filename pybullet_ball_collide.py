@@ -66,7 +66,7 @@ def timer_callback(_obj, _event):
 
     if f:
         print("entered")
-        for j in range(1):
+        for j in range(5):
             p.applyExternalForce(red_ball, -1,
                                  forceObj=[-8000, 0, 0],
                                  posObj=red_pos,

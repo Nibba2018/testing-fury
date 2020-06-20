@@ -13,32 +13,27 @@ class storage:
     orn_prev = 0 # to keep track of the previous orientation.(No use for now)
 
 # BALL
-ball_actor = actor.sphere(centers = np.array([[2, 2, 1]]),
+ball_actor = actor.sphere(centers = np.array([[0, 0, 0]]),
                     colors=np.array([1,0,0]),
                     radii=0.3)
 ball_coll = p.createCollisionShape(p.GEOM_SPHERE,
                                     radius=0.3)
-ball_vis = p.createVisualShape(p.GEOM_SPHERE,
-                                radius=0.3)
 ball = p.createMultiBody(baseMass=3,
                           baseCollisionShapeIndex=ball_coll,
-                          baseVisualShapeIndex=ball_vis,
-                          basePosition=[2, 0.2, 0.3],
+                          basePosition=[2, 0, 1.5],
                           baseOrientation=[ 0, 0, 0, 1 ])
 p.changeDynamics(ball, -1, lateralFriction=0.3, restitution=0.5)
 
 # BASE Plane
-base_actor = actor.box(centers=np.array([[-4, 3, -0.1]]),
-                         directions=[1.57, 0,0],
-                         size=(10, 10, 0.2) ,
-                         colors=(0, 1, 0))
+base_actor = actor.box(centers=np.array([[0, 0, 0]]),
+                         directions=[0,0,0],
+                         size=(5, 5, 0.2) ,
+                         colors=(1, 1, 1))
 base_coll = p.createCollisionShape(p.GEOM_BOX,
-                                   halfExtents=[10, 7.5, 0.1])
-base_vis = p.createVisualShape(p.GEOM_BOX,
-                                   halfExtents=[10, 7.5, 0.1])
-base = p.createMultiBody(baseVisualShapeIndex=base_vis,
+                                   halfExtents=[2.5, 2.5, 0.1]) # half of the actual size.
+base = p.createMultiBody(
                           baseCollisionShapeIndex=base_coll,
-                          basePosition=[-4, 3, -0.1],
+                          basePosition=[0, 0, -0.1],
                           baseOrientation=[ 0, 0, 0, 1 ])
 p.changeDynamics(base, -1, lateralFriction=0.3, restitution=0.5)
 
@@ -60,7 +55,7 @@ for i in range(height):
     temp_actors=[]
     for j in range(base_length):
         pos = np.array([[-1, (0.2+j*0.4), (0.1 + 0.2*i)]])
-        brick_actor = actor.box(centers=pos,
+        brick_actor = actor.box(centers=np.array([[0, 0, 0]]),
                          directions=np.array([1.57, 0,0]),
                          size=(0.2, 0.4, 0.2) ,
                          colors=np.random.rand(1,3))
@@ -68,13 +63,10 @@ for i in range(height):
 
         brick_coll = p.createCollisionShape(p.GEOM_BOX,
                                             halfExtents=[0.1, 0.2, 0.1])
-        brick_vis = p.createVisualShape(p.GEOM_BOX,
-                                            halfExtents=[0.1, 0.2, 0.1],
-                                            rgbaColor=[j*0.1, j*0.2, j*0.4,1])
         brick = p.createMultiBody(baseMass=0.5,
                                    baseCollisionShapeIndex=brick_coll,
-                                   baseVisualShapeIndex=brick_vis,
-                                   basePosition=[-1, (j*0.4), (0.2*i)],
+                                #    baseVisualShapeIndex=brick_vis,
+                                   basePosition=[-1, (j*0.4) - 1.5, (0.2*i)],
                                    baseOrientation=[ 0, 0, 0, 1 ])
         p.changeDynamics(brick, -1, lateralFriction=0.1, restitution=0.1)
 
@@ -111,6 +103,7 @@ def timer_callback(_obj, _event):
 
     pos, orn = p.getBasePositionAndOrientation(ball)
     base_pos, base_orn = p.getBasePositionAndOrientation(base)
+    base_actor.SetPosition(base_pos[0], base_pos[1], base_pos[2])
     if storage.f:
         print("entered")
         for j in range(5):
@@ -124,7 +117,6 @@ def timer_callback(_obj, _event):
     for i, brick_row in enumerate(brick_actors):
         for j, brick_actor in enumerate(brick_row):
             ball_actor.SetPosition(pos[0], pos[1], pos[2])
-            base_actor.SetPosition(base_pos[0], base_pos[1], base_pos[2])
             brick_pos, brick_orn = p.getBasePositionAndOrientation(brick_Ids[i][j])
             brick_actor.SetPosition(brick_pos[0], brick_pos[1], brick_pos[2])
             orn_deg = np.degrees(p.getEulerFromQuaternion(brick_orn))
@@ -139,4 +131,4 @@ def timer_callback(_obj, _event):
 
 showm.add_timer_callback(True, 10, timer_callback)
 showm.start()
-window.record(showm.scene, size=(900, 768), out_path="viz_timer.png")
+# window.record(showm.scene, size=(900, 768), out_path="viz_timer.png")
