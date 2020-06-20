@@ -65,7 +65,6 @@ for i in range(height):
                                             halfExtents=[0.1, 0.2, 0.1])
         brick = p.createMultiBody(baseMass=0.5,
                                    baseCollisionShapeIndex=brick_coll,
-                                #    baseVisualShapeIndex=brick_vis,
                                    basePosition=[-1, (j*0.4) - 1.5, (0.2*i)],
                                    baseOrientation=[ 0, 0, 0, 1 ])
         p.changeDynamics(brick, -1, lateralFriction=0.1, restitution=0.1)
