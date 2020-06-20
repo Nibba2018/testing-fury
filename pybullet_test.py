@@ -1,10 +1,7 @@
 import numpy as np
-from fury import window, actor, io
-from fury.data import read_viz_textures, fetch_viz_textures
+from fury import window, actor
 import itertools
 import pybullet as p
-import time
-import math
 
 
 client = p.connect(p.DIRECT)
@@ -173,4 +170,4 @@ def timer_callback(_obj, _event):
 
 showm.add_timer_callback(True, 10, timer_callback)
 showm.start()
-window.record(showm.scene, size=(900, 768), out_path="viz_timer.png")
+# window.record(showm.scene, size=(900, 768), out_path="viz_timer.png")
