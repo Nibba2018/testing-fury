@@ -92,9 +92,22 @@ def timer_callback(_obj, _event):
     blue_ball_actor.SetOrientation(*blue_orn_deg)
     blue_ball_actor.RotateWXYZ(*blue_orn)
 
+    contact = p.getContactPoints(red_ball, blue_ball, -1, -1)
+    if len(contact) != 0:print(contact)
+    # Output:
+    # ((0, 0, 1, -1, -1,
+    # (-0.023686780875139403, 0.23521219823707942, -0.062410514348040964),
+    # (0.023686780875139535, 0.26478780176291894, -0.06241051434804092),
+    # (0.8482627424036934, 0.5295756035258475, 7.569817989544679e-16),
+    # -0.05584774549455995, 9423.979289768244, -1227.5817656949062,
+    # (-0.5295756035258475, 0.8482627424036934, 0.0), -1.4854460576409489e-12,
+    # (-6.42119456730798e-16, -4.0087909303939393e-16, 1.0)),)
+
+    print(p.getAABB(red_ball))
+
     p.stepSimulation()
 
-    print(cnt)
+    # print(cnt)
     if cnt == 1200:
         showm.exit()
 
